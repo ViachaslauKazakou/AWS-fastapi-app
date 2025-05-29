@@ -1,0 +1,36 @@
+version: 0.2
+
+env:
+  variables:
+    # Disable Poetry’s venv inside the container
+    POETRY_VIRTUALENVS_CREATE: "false"
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    commands:
+      - echo "Installing Poetry…"
+      - pip install --upgrade pip
+      - pip install poetry
+
+  pre_build:
+    commands:
+      - echo "Installing dependencies with Poetry…"
+      - poetry install --no-interaction --no-ansi
+
+  build:
+    commands:
+      - echo "Running tests…"
+      - pytest --junitxml=test-results.xml
+      - echo "Zipping application…"
+      - zip -r fastapi-app.zip .
+
+  post_build:
+    commands:
+      - echo "Build completed."
+
+artifacts:
+  files:
+    - fastapi-app.zip
+    - test-results.xml
