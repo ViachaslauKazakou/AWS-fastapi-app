@@ -1,0 +1,34 @@
+name: Create GitHub Release on Release Branch
+
+on:
+  push:
+    branches:
+      - 'release/**'
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ github.ref_name }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Determine version from branch name
+        run: |
+          # branch is refs/heads/release/1.2.0 → VERSION=1.2.0
+          VERSION=${GITHUB_REF#refs/heads/release/}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ env.VERSION }}
+          release_name: Release ${{ env.VERSION }}
+          body: |
+            🎉 Automated release from branch `${{ github.ref }}`  
+            See changes in [`diff`](https://github.com/${{ github.repository }}/compare/main...release/${{ env.VERSION }})
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
