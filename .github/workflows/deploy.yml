@@ -1,0 +1,25 @@
+name: Create ZIP Artifact
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create ZIP archive
+        run: |
+          zip -r fastapi-app.zip . -x "*.git*" "*.venv*" "__pycache__/*" "*.pytest_cache*" "*.mypy_cache*"
+
+      - name: Upload ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fastapi-app-zip
+          path: fastapi-app.zip
