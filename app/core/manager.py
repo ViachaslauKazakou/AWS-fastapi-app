@@ -160,7 +160,7 @@ class ItemsManager:
         return result
     
     async def parse_items3(self, count=1):
-        """Parse items from the JSON file and return a list of dictionaries (async version)"""
+        """Parse items  from the JSON file and return a list of dictionaries (async version)"""
         tasks = [asyncio.create_task(self.fake_task(i)) for i in range(count)]
         logger.info(f"Running tasks: {len(tasks)}")
 
