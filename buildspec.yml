@@ -31,14 +31,14 @@ env:
     AWS_REGION: us-east-1
     REPO_NAME: simple-docker-service-121ef6ee57e1
     ECR_REPO: 203918879825.dkr.ecr.us-east-1.amazonaws.com/dev/fastapi-app
-    CONTAINER_NAME: flawless-eagle-0ncsvl
+    CONTAINER_NAME: fastapp-service
     IMAGE_TAG: latest
 
 phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      # - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPO
 
   build:
