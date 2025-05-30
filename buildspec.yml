@@ -31,7 +31,7 @@ env:
     AWS_REGION: us-east-1
     REPO_NAME: simple-docker-service-121ef6ee57e1
     ECR_REPO: 203918879825.dkr.ecr.us-east-1.amazonaws.com/dev/fastapi-app
-    CONTAINER_NAME: fastapi-example
+    CONTAINER_NAME: fastapi-service
     IMAGE_TAG: latest
 
 phases:
