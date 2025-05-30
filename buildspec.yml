@@ -28,37 +28,36 @@ version: 0.2
 
 env:
   variables:
-    CONTAINER_NAME: "fastapi-example"
     AWS_REGION: us-east-1
-    IMAGE_TAG: latest
     REPO_NAME: simple-docker-service-121ef6ee57e1
     ECR_REPO: 203918879825.dkr.ecr.us-east-1.amazonaws.com/dev/fastapi-app
-  privileged: true
+    CONTAINER_NAME: fastapi-example
+    IMAGE_TAG: latest
 
 phases:
   pre_build:
     commands:
+      - echo Logging in to Amazon ECR...
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin 203918879825.dkr.ecr.$AWS_REGION.amazonaws.com
+      - aws ecr get-login-password --region $AWS_REGION \
+        | docker login --username AWS --password-stdin $ECR_REPO
+
   build:
     commands:
+      - echo Build started on `date`
       - docker build -t $REPO_NAME:$IMAGE_TAG .
-      - docker tag $REPO_NAME:$IMAGE_TAG 203918879825.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME:$IMAGE_TAG
-      - echo 'Build completed successfully.'
+      - docker tag $REPO_NAME:$IMAGE_TAG $ECR_REPO:$IMAGE_TAG
+
   post_build:
     commands:
-      - echo 'Pushing the Docker image to ECR...'
-      - docker push 203918879825.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME:$IMAGE_TAG
-      # - echo '{"ImageURI":"203918879825.dkr.ecr.'$AWS_REGION'.amazonaws.com/'$REPO_NAME':'$IMAGE_TAG'"}' > imagedefinitions.json
-      - echo 'Creating imagedefinitions.json...'
-      - printf '[{"name":"fastapi-example","imageUri":"203918879825.dkr.ecr.us-east-1.amazonaws.com/simple-docker-service-121ef6ee57e1:latest"}]' > imagedefinitions.json
-
-      # - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $IMAGE_URI > imagedefinitions.json
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $ECR_REPO:$IMAGE_TAG
+      - echo Creating imagedefinitions.json...
+      - printf '[{"name":"%s","imageUri":"%s"}]' \
+          $CONTAINER_NAME $ECR_REPO:$IMAGE_TAG > imagedefinitions.json
       - cat imagedefinitions.json
-  post_post_build:
-    commands:
-      - echo 'Post-build phase completed.'
+
 artifacts:
   files:
-    # - '**/*'
     - imagedefinitions.json
