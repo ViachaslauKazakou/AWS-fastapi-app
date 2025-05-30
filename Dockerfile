@@ -1,15 +1,5 @@
-# FROM python:3.10-slim
-
-# WORKDIR /app
-
-# COPY requirements.txt .
-# RUN pip install -r requirements.txt
-
-# COPY . .
-
-# CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
-
-FROM 203918879825.dkr.ecr.us-east-1.amazonaws.com/python-3.12-slim
+FROM 203918879825.dkr.ecr.us-east-1.amazonaws.com/python-3.12-slim:latest
+# FROM python:3.12-slim
 
 WORKDIR /app
 
