@@ -29,7 +29,7 @@ version: 0.2
 env:
   variables:
     AWS_REGION: us-east-1
-    REPO_NAME: simple-docker-service-121ef6ee57e1
+    REPO_NAME: dev/fastapi-app
     ECR_REPO: 203918879825.dkr.ecr.us-east-1.amazonaws.com/dev/fastapi-app
     CONTAINER_NAME: fastapp-service
     IMAGE_TAG: latest
