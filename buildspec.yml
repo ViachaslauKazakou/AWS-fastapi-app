@@ -31,7 +31,7 @@ env:
     AWS_REGION: us-east-1
     REPO_NAME: dev/fastapi-app
     ECR_REPO: 203918879825.dkr.ecr.us-east-1.amazonaws.com/dev/fastapi-app
-    CONTAINER_NAME: fastapp-service
+    CONTAINER_NAME: fastapi-example
     IMAGE_TAG: latest
 
 phases:
