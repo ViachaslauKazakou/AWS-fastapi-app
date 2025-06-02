@@ -45,7 +45,7 @@ phases:
     commands:
       - echo Build started on `date`
       - docker build -t $REPO_NAME:$IMAGE_TAG .
-      - docker tag $REPO_NAME:$IMAGE_TAG $ECR_REPO:$IMAGE_TAG
+      - docker tag $CONTAINER_NAME:$IMAGE_TAG $ECR_REPO:$IMAGE_TAG
 
   post_build:
     commands:
