@@ -39,7 +39,7 @@ phases:
       - echo Logging in to Amazon ECR...
       # - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPO
-      - aws ecs describe-task-definition --task-definition fastapp-service
+      # - aws ecs describe-task-definition --task-definition fastapp-service
   build:
     commands:
       - echo Build started on `date`
