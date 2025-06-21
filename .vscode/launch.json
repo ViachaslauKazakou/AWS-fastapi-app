@@ -15,7 +15,15 @@
                 "--reload"
             ],
             "jinja": true,
-            "justMyCode": false
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "envFile": "${workspaceFolder}/.env",
+            // "preLaunchTask": "python: install dependencies",
+            // "postDebugTask": "python: clean up",
         }
     ]
 }
