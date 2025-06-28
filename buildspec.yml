@@ -29,8 +29,8 @@ version: 0.2
 env:
   variables:
     AWS_REGION: us-east-1
-    ECR_REPO: 203918879825.dkr.ecr.us-east-1.amazonaws.com/fastapp-service
-    CONTAINER_NAME: fastapi-example
+    ECR_REPO: 203918879825.dkr.ecr.us-east-1.amazonaws.com/fastapp-repo
+    CONTAINER_NAME: fastapp-repo
     IMAGE_TAG: latest
 
 phases:

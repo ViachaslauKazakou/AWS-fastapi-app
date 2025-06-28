@@ -1,0 +1,40 @@
+@startuml
+actor Dev as "Разработчик"
+participant LocalGit as "Локальный Git"
+entity LocalServer as "Локальный сервер"
+participant GitHub as "GitHub (репозиторий)"
+participant Terraform as "Terraform"
+entity HostingDev as "Dev-сервер"
+entity HostingProd as "Prod-сервер"
+Database DB as "База данных"
+Collections S3 as "S3-хранилище"
+
+alt local work
+Dev --> LocalGit : локальные изменения
+LocalGit ---> LocalServer : изменения отображаются в реальном времени
+end
+
+alt Create server
+Dev -> Terraform : Dev запускает Terraform
+
+Terraform -> HostingDev : Создание dev-сервера
+Terraform -> HostingProd : Создание prod-сервера
+Terraform -> DB : Создание базы данных
+Terraform -> S3 : Создание S3-хранилища
+end
+
+alt тестирование на dev сервере
+Dev -> LocalGit : git commit
+LocalGit -> GitHub : git push
+GitHub --> HostingDev : deploy with github Actions
+end
+
+alt Deploy to Prod
+Dev -> GitHub : Pull request в прод
+GitHub -> HostingProd : Actions После approval — запуск Deploy actions
+GitHub-> HostingProd : Создание/обновление prod-сервера
+GitHub -> DB : (опц.) миграции или настройки
+GitHub -> S3 : (опц.) копирование/настройка
+end
+
+@enduml
